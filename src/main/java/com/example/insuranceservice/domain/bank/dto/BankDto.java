@@ -2,6 +2,7 @@ package com.example.insuranceservice.domain.bank.dto;
 
 import com.example.insuranceservice.domain.bank.entity.Bank;
 import com.example.insuranceservice.domain.paymentInfo.entity.PaymentInfo;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 @Builder
+@AllArgsConstructor
 public class BankDto {
     private Integer id;
     private String payerName;
@@ -22,5 +24,12 @@ public class BankDto {
                 .payerPhoneNum(this.payerPhoneNum)
                 .paymentInfo(this.paymentInfo)
                 .build();
+    }
+
+    public BankDto(Bank bank) {
+        this.id = bank.getId();
+        this.payerName = bank.getPayerName();
+        this.payerPhoneNum = bank.getPayerPhoneNum();
+        this.paymentInfo = bank.getPaymentInfo();
     }
 }

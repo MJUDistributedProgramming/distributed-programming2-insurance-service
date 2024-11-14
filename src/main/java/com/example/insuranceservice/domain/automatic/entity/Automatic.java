@@ -2,18 +2,16 @@ package com.example.insuranceservice.domain.automatic.entity;
 
 import com.example.insuranceservice.domain.paymentInfo.entity.PaymentInfo;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Entity
-@Data
 @Slf4j
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Automatic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

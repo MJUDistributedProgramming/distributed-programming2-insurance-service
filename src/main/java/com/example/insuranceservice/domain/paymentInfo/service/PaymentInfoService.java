@@ -9,6 +9,7 @@ import com.example.insuranceservice.domain.bank.repository.BankRepository;
 import com.example.insuranceservice.domain.card.dto.CardDto;
 import com.example.insuranceservice.domain.card.entity.Card;
 import com.example.insuranceservice.domain.card.repository.CardRepository;
+import com.example.insuranceservice.domain.paymentInfo.dto.PaymentInfoDetailDto;
 import com.example.insuranceservice.domain.paymentInfo.dto.PaymentInfoDto;
 import com.example.insuranceservice.domain.paymentInfo.entity.PaymentInfo;
 import com.example.insuranceservice.domain.paymentInfo.repository.PaymentInfoRepository;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentInfoService {
@@ -75,5 +77,18 @@ public class PaymentInfoService {
             PaymentInfo paymentInfo = list.get();
             paymentInfo.setAutomaticList(autoList);
         }
+    }
+
+    public List<PaymentInfoDetailDto> getAllPaymentInfo() {
+//        List<PaymentInfo> list = paymentInfoRepository.findAll();
+        List<PaymentInfo> list = paymentInfoRepository.findByIdBetween(0, 100);
+        return list.stream()
+                .map(PaymentInfoDetailDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public PaymentInfoDetailDto getAllPaymentInfo(Integer id) {
+        Optional<PaymentInfo> paymentInfo = paymentInfoRepository.findById(id);
+        return paymentInfo.map(PaymentInfoDetailDto::new).orElse(null);
     }
 }

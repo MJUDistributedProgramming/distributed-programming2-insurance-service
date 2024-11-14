@@ -15,11 +15,12 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Data
 @Builder
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class PaymentInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

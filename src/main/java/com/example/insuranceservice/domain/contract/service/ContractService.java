@@ -241,7 +241,6 @@ public class ContractService {
     }
     ////
 
-
     public String testCreateContract(ContractDto contractDto) {
         Contract contract = new Contract();
         contract.setConcludedDate(contractDto.getConcludedDate());
@@ -286,7 +285,7 @@ public class ContractService {
             String paymentType = paymentInfoDto.getPaymentType();
             paymentInfo.setPaymentType(paymentType);
             paymentInfo.setContract(contract);
-            if(paymentType.equals(Constant.paymentInfoBank)) {
+            if(paymentType.equals(Constant.paymentInfoCard)) {
                 List<Card> cardList = new ArrayList<>();
                 for(CardRequestDto cardRequestDto : paymentInfoDto.getCardRequestDtoList()) {
                     Card card = new Card();
@@ -297,7 +296,8 @@ public class ContractService {
                     cardList.add(card);
                 }
                 paymentInfo.setCardList(cardList);
-            } else if (paymentType.equals(Constant.paymentInfoCard)) {
+                System.out.println(cardList);
+            } else if (paymentType.equals(Constant.paymentInfoBank)) {
                 List<Bank> bankList = new ArrayList<>();
                 for(BankRequestDto bankRequestDto : paymentInfoDto.getBankRequestDtoList()) {
                     Bank bank = new Bank();
