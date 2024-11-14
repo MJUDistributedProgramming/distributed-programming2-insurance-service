@@ -14,6 +14,8 @@ import com.example.insuranceservice.domain.paymentInfo.dto.PaymentInfoDto;
 import com.example.insuranceservice.domain.paymentInfo.entity.PaymentInfo;
 import com.example.insuranceservice.domain.paymentInfo.repository.PaymentInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -80,9 +82,10 @@ public class PaymentInfoService {
     }
 
     public List<PaymentInfoDetailDto> getAllPaymentInfo() {
-//        List<PaymentInfo> list = paymentInfoRepository.findAll();
-        List<PaymentInfo> list = paymentInfoRepository.findByIdBetween(0, 100);
-        return list.stream()
+        Pageable pageable = PageRequest.of(0, 100);
+        List<PaymentInfo> paymentInfos = paymentInfoRepository.findAll(pageable).getContent();
+
+        return paymentInfos.stream()
                 .map(PaymentInfoDetailDto::new)
                 .collect(Collectors.toList());
     }
