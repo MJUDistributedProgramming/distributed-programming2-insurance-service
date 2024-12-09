@@ -7,6 +7,7 @@ import com.example.insuranceservice.domain.customer.entity.Customer;
 import com.example.insuranceservice.domain.customer.repository.CustomerRepository;
 import com.example.insuranceservice.global.alertManager.AlertManager;
 import com.example.insuranceservice.global.logManager.LogManager;
+import com.example.insuranceservice.global.replica.ReadOnly;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class AccidentService {
 
     //// 사고접수 카테고리
     // 사고접수 조회 - 모든 사고 조회
+    @ReadOnly
     public List<AccidentDTO> getAllAccidents() {
         logManager.logSend("[INFO]", "모든 사고 조회 요청을 시작합니다.");
         List<AccidentDTO> accidents = accidentRepository.findAll().stream()
@@ -43,6 +45,7 @@ public class AccidentService {
     }
 
     // 사고접수 조회 - accidentID 이용
+    @ReadOnly
     public AccidentDTO getAccidentById(int accidentID) {
         logManager.logSend("[INFO]", "사고 ID로 사고 조회 요청을 시작합니다. ID: " + accidentID);
         AccidentDTO accident = accidentRepository.findById(accidentID)
@@ -56,6 +59,7 @@ public class AccidentService {
     }
 
     // 사고접수 조회 - customerID 이용
+    @ReadOnly
     public List<AccidentDTO> getAccidentsByCustomerId(int customerID) {
         logManager.logSend("[INFO]", "고객 ID로 사고 조회 요청을 시작합니다. 고객 ID: " + customerID);
 
