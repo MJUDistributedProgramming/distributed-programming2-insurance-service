@@ -9,11 +9,10 @@ import com.example.insuranceservice.domain.employee.entity.Employee;
 import com.example.insuranceservice.domain.employee.service.EmployeeService;
 import com.example.insuranceservice.domain.insurance.entity.Insurance;
 import com.example.insuranceservice.domain.insurance.service.InsuranceService;
-import com.example.insuranceservice.exception.DuplicateIDException;
-import com.example.insuranceservice.exception.NotFoundProfileException;
 import com.example.insuranceservice.global.alertManager.AlertManager;
 import com.example.insuranceservice.global.constant.Constant;
 import com.example.insuranceservice.global.logManager.LogManager;
+import com.example.insuranceservice.global.replica.ReadOnly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -59,12 +58,14 @@ public class CounselService {
         return ResponseEntity.ok("[success] 상담 신청이 완료되었습니다.");
     }
 
+    @ReadOnly
     private Customer findCustomerById(Integer customerId) {
         Optional<Customer> tempCustomer = customerRepository.findById(customerId);
         return tempCustomer.orElse(null);
     }
 
     // 상담 신청 내역 조회
+    @ReadOnly
     public List<ShowCounselDto> showCounselList(Integer customerId) {
 //        Customer customer = findCustomerById(customerId);
 //        List<Counsel> counselList = counselRepository.findByCustomer(customer);
@@ -77,6 +78,7 @@ public class CounselService {
 
     //// 상담신청 일정 관리 카테고리
     // 신청된 상담 일정 조회
+    @ReadOnly
     public List<ShowRequestedCounselDto> showRequestedCounselList() {
 //        List<Counsel> requestedCounselList = counselRepository.findByStatusOfCounsel(false);
         logManager.logSend("[INFO]", "신청된 상담 일정이 조회되었습니다.");
@@ -87,6 +89,7 @@ public class CounselService {
     }
 
     // 확정한 상담 일정 조회
+    @ReadOnly
     public List<ShowConfirmedCounselDto> showConfirmedCounselList(Integer employeeId) {
         Employee employee = employeeService.findEmployeeById(employeeId);
         List<Counsel> confirmedCounselList = counselRepository.findByEmployeeAndStatusOfCounsel(employee, true);
@@ -119,6 +122,7 @@ public class CounselService {
 
     //// 상담 내역 관리 카테고리
     // 상담 내역 조회
+    @ReadOnly
     public List<ShowConsultedCounselDto> showConsultedCounselList(Integer employeeId) {
         Employee employee = employeeService.findEmployeeById(employeeId);
         List<Counsel> counselList = counselRepository.findByEmployee(employee);
@@ -164,6 +168,7 @@ public class CounselService {
         return suggestInsuranceDto;
     }
 
+    @ReadOnly
     public Counsel findCounselById(Integer counselId) {
         Optional<Counsel> tempCounsel = counselRepository.findById(counselId);
 //        if(tempCounsel.isEmpty())
@@ -171,6 +176,7 @@ public class CounselService {
         return tempCounsel.orElse(null);
     }
 
+    @ReadOnly
     public RetrieveCounselDto retrieveCounsel(Integer counselId) {
         Optional<Counsel> counsel = counselRepository.findById(counselId);
         if(counsel.isPresent()){

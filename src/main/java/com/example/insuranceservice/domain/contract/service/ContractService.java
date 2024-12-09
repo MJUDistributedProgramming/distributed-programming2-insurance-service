@@ -20,6 +20,7 @@ import com.example.insuranceservice.exception.NotFoundProfileException;
 import com.example.insuranceservice.global.alertManager.AlertManager;
 import com.example.insuranceservice.global.constant.Constant;
 import com.example.insuranceservice.global.logManager.LogManager;
+import com.example.insuranceservice.global.replica.ReadOnly;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -330,7 +331,7 @@ public class ContractService {
         return "계약이 성공적으로 생성되었습니다.";
     }
 
-
+    @ReadOnly
     private Contract findContractById(Integer contractId){
         Optional<Contract> contract = contractRepository.findById(contractId);
         return contract.orElse(null);
@@ -443,6 +444,7 @@ public class ContractService {
 
     //// 보유 계약 조회 카테고리
     // 보유 계약 조회
+    @ReadOnly
     public List<ShowConcludedContractDto> showConcludedContractList(Integer customerId) {
         Customer customer = customerService.findCustomerById(customerId);
         List<Contract> contractList = contractRepository.findByCustomerAndContractStatusIs(customer, Constant.contractStatus5);
@@ -456,6 +458,7 @@ public class ContractService {
     }
 
     // 신청한 계약 조회
+    @ReadOnly
     public List<ShowRequestedContractDto> showRequestedContractList(Integer customerId) {
         Customer customer = customerService.findCustomerById(customerId);
         List<Contract> contractList = contractRepository.findByCustomerAndContractStatusIs(customer, Constant.contractStatus1);

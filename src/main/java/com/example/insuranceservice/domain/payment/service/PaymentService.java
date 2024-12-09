@@ -9,6 +9,7 @@ import com.example.insuranceservice.domain.payment.entity.Payment;
 import com.example.insuranceservice.domain.payment.repository.PaymentRepository;
 import com.example.insuranceservice.global.alertManager.AlertManager;
 import com.example.insuranceservice.global.logManager.LogManager;
+import com.example.insuranceservice.global.replica.ReadOnly;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,7 @@ public class PaymentService {
                 .collect(Collectors.toList());
     }
 
+    @ReadOnly
     private ArrayList<Payment> retrieveByCustomerID(Integer customerID){
         ArrayList<Payment> customerPayment = new ArrayList<>();
         for (Payment payment: paymentRepository.findAll()) {
@@ -78,6 +80,7 @@ public class PaymentService {
         }
     }
 
+    @ReadOnly
     private Payment findPaymentById(Integer paymentId) {
         Optional<Payment> tempPayment = paymentRepository.findById(paymentId);
         if(tempPayment.isPresent()){

@@ -50,6 +50,7 @@ public class InsuranceService {
         this.insuranceRepository = insuranceRepository;
     }
 
+    @ReadOnly
     public List<ShowInsuranceTypeDto> showInsuranceTypeList(String category) {
         List<Insurance> insuranceList = insuranceRepository.findByCategory(category);
         logManager.logSend("[INFO]", category+ " 상품 목록이 조회되었습니다.");
@@ -69,6 +70,7 @@ public class InsuranceService {
         }
     }
 
+    @ReadOnly
     public RetrieveInsuranceDto retrieveInsurance(Integer insuranceId) throws NotFoundProfileException {
         Insurance insurance = findInsuranceById(insuranceId);
         if(insurance!=null){
@@ -81,6 +83,7 @@ public class InsuranceService {
         }
     }
 
+    @ReadOnly
     public Insurance findInsuranceById(Integer insuranceId) {
         Optional<Insurance> insurance = insuranceRepository.findById(insuranceId);
         return insurance.orElse(null);
