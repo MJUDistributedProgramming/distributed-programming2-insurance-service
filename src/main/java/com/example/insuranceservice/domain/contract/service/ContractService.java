@@ -340,7 +340,7 @@ public class ContractService {
     private Contract findContractById(Integer contractId){
         Optional<Contract> contract = contractRepository.findById(contractId);
         return contract.orElse(null);
-//        if (contract.isPresent()) return contract.get();
+//        if (contract.isPresent()) return contract.get(); test
 //        else throw new RuntimeException("존재하지 않는 계약 ID");
     }
 
