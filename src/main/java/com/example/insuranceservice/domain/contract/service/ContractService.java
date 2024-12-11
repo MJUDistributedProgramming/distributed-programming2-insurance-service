@@ -20,6 +20,7 @@ import com.example.insuranceservice.exception.NotFoundProfileException;
 import com.example.insuranceservice.global.alertManager.AlertManager;
 import com.example.insuranceservice.global.constant.Constant;
 import com.example.insuranceservice.global.logManager.LogManager;
+import com.example.insuranceservice.global.replica.ReadOnly;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -171,6 +172,7 @@ public class ContractService {
         }
     }
     //// 계약체결 카테고리 - 계약을 체결한다.
+    @ReadOnly
     public List<ShowPermitedUnderwriteContractDto> showPermitedUnderwriteContractList() {
         List<Contract> permitContracts = contractRepository.findByContractStatus("ContractPermission");
         logManager.logSend("[INFO]", "인수심사 완료된 계약건을 조회하였습니다.");
@@ -197,6 +199,7 @@ public class ContractService {
             return "[error] 해당 계약 id를 찾을 수 없습니다.";
         }
     }
+    @ReadOnly
     public List<ShowRejectedUnderwriteContractDto> showRejectedUnderwriteContractList() {
         List<Contract> rejectedContracts = contractRepository.findByContractStatus("ReviewReject");
         logManager.logSend("[INFO]", "인수심사 거절된 계약건을 조회하였습니다.");
@@ -218,6 +221,7 @@ public class ContractService {
     ////
 
     //// 인수심사 카테고리 - 계약의 인수심사를 하다, 계약 진행을 허가한다.
+    @ReadOnly
     public List<ShowUnderwritedContractDto> showUnderwritedContractList() {
         List<Contract> contracts = contractRepository.findByContractStatus("ReviewPermit");
         logManager.logSend("[INFO]", "인수심사 완료된 계약건을 조회하였습니다.");
@@ -242,11 +246,13 @@ public class ContractService {
             return "[error] 해당 계약 ID를 찾을 수 없습니다.";
         }
     }
+    @ReadOnly
     public List<ShowRequestedUnderwriteContractDto> showRequestedUnderwriteContractList() {
         List<Contract> contracts = contractRepository.findByContractStatus("ReviewRequest");
         logManager.logSend("[INFO]", "인수심사 요청된 계약건을 조회하였습니다.");
         return contracts.stream().map(ShowRequestedUnderwriteContractDto::new).collect(Collectors.toList());
     }
+    @ReadOnly
     public ShowUnderwritingContractAndCustomerDto showUnderwritingContractAndCustomer(Integer contractId) {
         Contract contract = contractRepository.findById(contractId)
                 .orElseThrow(() -> new RuntimeException("[error] 해당 계약을 찾을 수 없습니다.]"));

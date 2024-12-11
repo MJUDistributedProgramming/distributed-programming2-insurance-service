@@ -49,8 +49,8 @@ public class CustomerService {
                 }).collect(Collectors.toList());
 
         customer.setMedicalHistories(medicalHistories);
-        logManager.logSend("[INFO]", "id "+customer.getCustomerID()+"번 고객이 생성되었습니다.");
         customerRepository.save(customer);
+        logManager.logSend("[INFO]", "id "+customer.getCustomerID()+"번 고객이 생성되었습니다.");
     }
 
 
@@ -89,14 +89,13 @@ public class CustomerService {
                     return medicalHistory;
                 }).collect(Collectors.toList());
         existingCustomer.getMedicalHistories().addAll(updatedMedicalHistories);
-
         customerRepository.save(existingCustomer);
         logManager.logSend("[SUCCESS]", "id "+customerId+"번 고객의 정보가 수정되었습니다.");
         return "[success] 성공적으로 고객 정보가 수정되었습니다.";
     }
     public void deleteCustomer(Integer customerId) {
-        logManager.logSend("[SUCCESS]", "id "+customerId+"번 고객이 삭제되었습니다.");
         customerRepository.deleteById(customerId);
+        logManager.logSend("[SUCCESS]", "id "+customerId+"번 고객이 삭제되었습니다.");
     }
     ////
 

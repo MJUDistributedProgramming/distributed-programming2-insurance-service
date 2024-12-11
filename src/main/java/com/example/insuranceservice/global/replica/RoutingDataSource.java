@@ -1,5 +1,6 @@
 package com.example.insuranceservice.global.replica;
 
+import com.example.insuranceservice.global.logManager.LogManager;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
@@ -13,7 +14,12 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
     private DataSource readDataSource;
     private String writeDatabaseUrl;
     private String readDatabaseUrl;
+    private final LogManager logManager;
     private boolean isInitialized = false;
+
+    public RoutingDataSource(LogManager logManager) {
+        this.logManager = logManager;
+    }
 
     @Override
     public void setTargetDataSources(Map<Object, Object> targetDataSources) {
@@ -34,9 +40,11 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
         if (currentKey == null || currentKey.equals("write")) {
             System.out.println("### Using WRITE DataSource (Main DB)");
             System.out.println("### Current Database URL: " + writeDatabaseUrl);
+            logManager.logSend("[INFO]", "VVV 아래 요청은 ### Current Database URL: " + writeDatabaseUrl + " 해당 database 소스에 요청되어 처리되었습니다.");
         } else if (currentKey.equals("read")) {
             System.out.println("### Using READ DataSource (Replica DB)");
             System.out.println("### Current Database URL: " + readDatabaseUrl);
+            logManager.logSend("[INFO]", "VVV 아래 요청은 ### Current Database URL: " + readDatabaseUrl + " 해당 database 소스에 요청되어 처리되었습니다.");
         }
 
         return currentKey != null ? currentKey : "write";
