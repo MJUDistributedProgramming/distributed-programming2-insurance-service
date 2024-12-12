@@ -1,7 +1,7 @@
 name: Build and Deploy Gradle Project
 
 on:
-  push:
+  push:   
     branches: [ "ver2" ]
   pull_request:
     branches: [ "ver2" ]
