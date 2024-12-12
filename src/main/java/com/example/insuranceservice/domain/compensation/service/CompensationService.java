@@ -78,17 +78,18 @@ public class CompensationService {
         }
         Compensation compensationEntity = compensation.toEntity(accident.get());
         compensationEntity.setCompensationID(compensation.getCompensationID());
+        if (compensation.getInsuranceAmount() >= 1000000000){
+            alertManager.sendAlert(
+                    "[INFO]",
+                    "id " + compensation.getCompensationID() + "번째 보상이 10억 이상의 금액으로 과도하게 수정되었습니다."
+            );
+            logManager.logSend("[error]", compensation.getCompensationID()+"번의 보상 수정이 10억 이상의 금액으로 과도하게 수정되었습니다.");
+            return "[error] 보상 수정이 10억 이상의 금액으로 과도하게 수정되었습니다.";
+        }
         Compensation response =  compensationRepository.save(compensationEntity);
         if(response.equals(null)){
             throw new NullPointerException();
         }else{
-            logManager.logSend("[INFO]", "수정: " + compensation.getCompensationID());
-            if (compensation.getInsuranceAmount() >= 1000000000){
-                alertManager.sendAlert(
-                        "[INFO]",
-                        "id " + compensation.getCompensationID() + "번째 보상이 10억 이상의 금액으로 과도하게 수정되었습니다."
-                );
-            }
             logManager.logSend("[success]", compensation.getCompensationID()+"번의 보상 수정이 완료되었습니다.");
             return "[success] 보상 수정이 완료되었습니다.";
         }
@@ -157,11 +158,13 @@ public class CompensationService {
         }
         Compensation compensation = optionalCompensation.get();
         compensation.setInsuranceAmount(compensation.getLossAmount());
-        if(compensation.getInsuranceAmount()>=1000000000){
+        if (compensation.getInsuranceAmount() >= 1000000000){
             alertManager.sendAlert(
-                    "높은 금액의 보험금 산출 알림",
-                    "보상 id: " + compensation.getCompensationID() + "에 대하여 보험금이 " +compensation.getInsuranceAmount() +" 원으로 산출되었습니다"
+                    "[INFO]",
+                    "id " + compensation.getCompensationID() + "번째 보상이 10억 이상의 금액으로 과도하게 산출되었습니다."
             );
+            logManager.logSend("[error]", compensation.getCompensationID()+"번의 보상 수정이 10억 이상의 금액으로 과도하게 산출되었습니다.");
+            return "[error] 보상 수정이 10억 이상의 금액으로 과도하게 산출되었습니다.";
         }
         compensationRepository.save(compensation);
         if (compensation.getInsuranceAmount() != compensation.getLossAmount()) {
@@ -180,11 +183,13 @@ public class CompensationService {
             throw new NotFoundProfileException("[Exception] 해당 보상ID의 보상이 존재하지 않습니다. 다시 시도해주세요.");
         }
         Compensation compensation = optionalCompensation.get();
-        if(compensation.getInsuranceAmount()>=1000000000){
+        if (compensation.getInsuranceAmount() >= 1000000000){
             alertManager.sendAlert(
-                    "높은 금액의 보험금 지급 알림",
-                    "보상 id: " + compensation.getCompensationID() + "에 대하여 보험금이 " +compensation.getInsuranceAmount() +" 원으로 지급되었습니다"
+                    "[INFO]",
+                    "id " + compensation.getCompensationID() + "번째 보상이 10억 이상의 금액으로 과도하게 지급되었습니다."
             );
+            logManager.logSend("[error]", compensation.getCompensationID()+"번의 보상 수정이 10억 이상의 금액으로 과도하게 지급되었습니다.");
+            return "[error] 보상 수정이 10억 이상의 금액으로 과도하게 지급되었습니다.";
         }
         logManager.logSend("[INFO]", compensationId+"번의 보험금이 "+ compensation.getInsuranceAmount()+" 원으로 지급되었습니다.");
         return "보험금: " + compensation.getInsuranceAmount();
