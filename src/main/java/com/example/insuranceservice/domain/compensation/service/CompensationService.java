@@ -80,7 +80,6 @@ public class CompensationService {
             throw new NullPointerException();
         }else{
             logManager.logSend("[INFO]", "수정: " + compensation.getCompensationID());
-            // 이메일 알림 발송
             if (compensation.getInsuranceAmount() >= 1000000000){
                 alertManager.sendAlert(
                         "[INFO]",
