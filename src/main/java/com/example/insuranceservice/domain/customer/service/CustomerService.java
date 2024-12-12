@@ -53,7 +53,6 @@ public class CustomerService {
         logManager.logSend("[INFO]", "id "+customer.getCustomerID()+"번 고객이 생성되었습니다.");
     }
 
-
     @ReadOnly
     public List<ShowCustomerList> retrieveCustomer() {
         List<Customer> customers = customerRepository.findAll();
