@@ -55,6 +55,7 @@ public class CustomerService {
 
     @ReadOnly
     public List<ShowCustomerList> retrieveCustomer() {
+        // 배포 데모 테스트
         List<Customer> customers = customerRepository.findAll();
         logManager.logSend("[INFO]", "고객 정보가 조회되었습니다.");
         return customers.stream().map(ShowCustomerList::new).collect(Collectors.toList());
